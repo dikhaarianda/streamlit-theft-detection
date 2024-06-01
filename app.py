@@ -113,12 +113,12 @@ def main():
   SEQUENCE_COUNT = 30
 
   # model preparation
-  model_path = r'C:\Users\User\OneDrive\Documents\File Skripsi\Programs\Streamlit\assets\best_model_1.h5'
+  model_path = 'assets/best_model.h5'
   model = load_model(model_path, custom_objects={'F1_Score': EvaluationMetrics.f1_score})
 
   # audio preparation
   pygame.mixer.init()
-  pygame.mixer.music.load(r'C:\Users\User\OneDrive\Documents\File Skripsi\Programs\Streamlit\assets\alarm_cut.mp3')
+  pygame.mixer.music.load('assets/alarm_cut.mp3')
   pygame.mixer.music.stop() # To prevent bugs, set the audio to stop first
 
   # Program Title
