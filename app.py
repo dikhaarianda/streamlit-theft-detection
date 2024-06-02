@@ -84,10 +84,11 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
       predict_text.success('Predict: ' + predict_txt)
     else:
       predict_text.info('Predict: ' + predict_txt)
-    cv2.waitKey(25)
+    cv2.waitKey(150)
 
+  audio.empty()
+  attention_text.empty()
   st.session_state.predict = False
-
   if show_frames:
     st.markdown('---')
     st.write('Report Frame:')
