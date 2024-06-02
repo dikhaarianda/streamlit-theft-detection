@@ -86,7 +86,7 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
     else:
       predict_text.info('Predict: ' + predict_txt)
     # cv2.waitKey(150)
-    time.sleep(0.8)
+    time.sleep(0.3)
 
   audio.empty()
   attention_text.empty()
