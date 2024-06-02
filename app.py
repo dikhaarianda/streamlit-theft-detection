@@ -33,6 +33,7 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
     audio = st.empty()
 
     if st.button('Stop Predict'):
+      attention_text.empty()
       st.session_state.predict = False
       st.rerun()
 
