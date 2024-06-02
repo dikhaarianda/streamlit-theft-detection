@@ -30,6 +30,7 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
     normal_text = st.empty()
     predict_text = st.empty()
     attention_text = st.empty()
+    audio = st.empty()
 
     if st.button('Stop Predict'):
       st.session_state.predict = False
@@ -56,11 +57,14 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
           show_frames.extend(frames)
           attention_text.warning('Attention, Theft Behavior Has Been Detected!')
           if audio_on and not is_playing:
-
+            audio_file = open('assets\alarm_cut.mp3', 'rb')
+            audio_file = audio_file.read()
+            audio.audio(audio_file, format="audio/mp3")
             is_playing = True
 
       else:
-
+        if audio_on:
+          audio = st.empty
         pencurian_count = 0
         attention_text.empty()
         is_playing = False
