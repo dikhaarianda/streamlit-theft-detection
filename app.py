@@ -1,5 +1,4 @@
 import cv2
-import pygame
 import tempfile
 import streamlit as st
 from keras.models import load_model
@@ -33,7 +32,6 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
     attention_text = st.empty()
 
     if st.button('Stop Predict'):
-      pygame.mixer.music.stop()
       st.session_state.predict = False
       st.rerun()
 
@@ -58,12 +56,11 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
           show_frames.extend(frames)
           attention_text.warning('Attention, Theft Behavior Has Been Detected!')
           if audio_on and not is_playing:
-            pygame.mixer.music.play(-1)
+
             is_playing = True
 
       else:
-        if audio_on:
-          pygame.mixer.music.stop()
+
         pencurian_count = 0
         attention_text.empty()
         is_playing = False
@@ -84,7 +81,6 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
       predict_text.info('Predict: ' + predict_txt)
     cv2.waitKey(25)
 
-  pygame.mixer.music.stop()
   st.session_state.predict = False
 
   if show_frames:
@@ -116,11 +112,6 @@ def main():
   model_path = 'assets/best_model.h5'
   model = load_model(model_path, custom_objects={'F1_Score': EvaluationMetrics.f1_score})
 
-  # audio preparation
-  pygame.mixer.init()
-  pygame.mixer.music.load('assets/alarm_cut.mp3')
-  pygame.mixer.music.stop() # To prevent bugs, set the audio to stop first
-
   # Program Title
   st.header('CCTV-based Theft Behavior Detection System')
   st.markdown('---')
@@ -135,11 +126,9 @@ def main():
   # video predictions
   if upload_video is None:
     st.sidebar.warning('Please select an options and upload the video before predictions!')
-    pygame.mixer.music.stop() # To prevent bugs, set the audio to stop first
     st.session_state.predict = False
   else:
     st.sidebar.video(upload_video) # show video on sidebar
-    pygame.mixer.music.stop() # To prevent bugs, set the audio to stop
 
     if st.sidebar.button('Start Predict') or st.session_state.predict:
       st.session_state.predict = True
