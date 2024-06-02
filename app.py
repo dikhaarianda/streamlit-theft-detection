@@ -1,5 +1,6 @@
 import cv2
 import tempfile
+import time
 import streamlit as st
 from keras.models import load_model
 from f1_score import EvaluationMetrics
@@ -84,7 +85,8 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
       predict_text.success('Predict: ' + predict_txt)
     else:
       predict_text.info('Predict: ' + predict_txt)
-    cv2.waitKey(150)
+    # cv2.waitKey(150)
+    time.sleep(0.8)
 
   audio.empty()
   attention_text.empty()
