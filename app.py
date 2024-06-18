@@ -43,7 +43,7 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
     if not ret:
       break
 
-    frame = cv2.resize(frame, (640, 480))
+    frame = cv2.resize(frame, (320, 240))
     frames.append(frame)
     frame_idx+=1
 
