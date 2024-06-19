@@ -1,6 +1,6 @@
 import cv2
-import tempfile
 import time
+import tempfile
 import streamlit as st
 from keras.models import load_model
 from f1_score import EvaluationMetrics
@@ -35,7 +35,6 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
 
     if st.button('Stop Predict'):
       attention_text.empty()
-      st.session_state.predict = False
       st.rerun()
 
   while(True):
@@ -59,9 +58,9 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
           show_frames.extend(frames)
           attention_text.warning('Attention, Theft Behavior Has Been Detected!')
           if audio_on and not is_playing:
-            audio_file = open('assets/alarm_cut.mp3', 'rb')
-            audio_file = audio_file.read()
-            audio.audio(audio_file, format="audio/mp3", autoplay=True, loop=True)
+            with open('assets/alarm_cut.mp3', 'rb') as audio_file:
+              audio_file = audio_file.read()
+              audio.audio(audio_file, format="audio/mp3", autoplay=True, loop=True)
             is_playing = True
 
       else:
@@ -90,7 +89,6 @@ def every_frame(load_class, sequence, model, video_file, audio_on):
 
   audio.empty()
   attention_text.empty()
-  st.session_state.predict = False
   if show_frames:
     st.markdown('---')
     st.write('Report Frame:')
@@ -121,7 +119,7 @@ def main():
   model = load_model(model_path, custom_objects={'F1_Score': EvaluationMetrics.f1_score})
 
   # Program Title
-  st.header('CCTV-based Theft Behavior Detection System')
+  st.header('CNN-LSTM Based Theft Detection System')
   st.markdown('---')
 
   # setup sidebar
@@ -134,12 +132,9 @@ def main():
   # video predictions
   if upload_video is None:
     st.sidebar.warning('Please select an options and upload the video before predictions!')
-    st.session_state.predict = False
   else:
     st.sidebar.video(upload_video) # show video on sidebar
-
-    if st.sidebar.button('Start Predict') or st.session_state.predict:
-      st.session_state.predict = True
+    if st.sidebar.button('Start Predict'):
       ef = EveryFrame(IMAGE_WIDTH, IMAGE_HEIGHT) # call EveryFrame class for process video realtime
       every_frame(ef, SEQUENCE_COUNT, model, upload_video, audio_on)
 
